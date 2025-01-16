@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">   
+        
+        <div class="row justify-content-center mb-3">           
+            <form action="/" method="POST">
+                <label>Task : </label>
+                <input type="text" placeholder="Task" name="content" id="content" required>
+                <label>Due Date : </label>
+                <input type="date" placeholder="due" name="due" id="due" required>
+
+                <input class="btn btn-primary ml-2" type="submit" value="Add Task" id="btn_add">
+            </form>
+        </div>
+    
+        <div class="row justify-content-center">
+            {% if tasks | length < 1 %}
+            {% set lbl="There are No Tasks ... Create one here!" %}
+            <h4> {{ lbl }} </h4>
+
+            {% else %}
+            {% set lbl="Here are your tasks!" %}
+            <h4> {{ lbl }} </h4>
+
+            <table class="table table table-striped table-hover">
+                <tr>
+                    <th>Task</th>
+                    <th>Due</th>
+                    <th>Created</th>
+                    <th>Action</th>
+                </tr>
+                {% for task in tasks %}
+                <tr>
+                    <td>{{ task.content }}</td>
+                    <td>{{ task.due.strftime("%d-%m-%Y") }}</td>
+                    <td>{{ task.created.strftime("%d-%m-%Y") }}</td>
+
+                    <td>
+                        <a class="btn btn-primary mr-2" href="/edit/{{task.id}}">Edit</a>
+                        <a class="btn btn-danger ml-2"href="/delete/{{task.id}}">Delete</a> 
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        
+        {% endif %}       
+        
+    </div>
+{% endblock %}
